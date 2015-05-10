@@ -1,0 +1,8 @@
+Jinja2==2.7.3
+MarkupSafe==0.23
+SQLAlchemy==0.9.9
+certifi==14.05.14
+ipython==3.1.0
+jsonschema==2.4.0
+pyzmq==14.5.0
+tornado==4.1

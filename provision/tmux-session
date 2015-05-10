@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$TMUX" ]; then
+
+	# make the SSH_AUTH_SOCK point to a local symlink
+	if [ ! -z "SSH_AUTH_SOCK" ]; then
+	  ln -sf "$SSH_AUTH_SOCK" "$HOME/.wrap_auth_sock"
+	fi
+	export SSH_AUTH_SOCK="$HOME/.wrap_auth_sock"
+
+	# create a new tmux background session
+	PID=$(echo -n $(pidof tmux))
+	if [ -z "$PID" ]; then
+		tmux new-session -d -s pyne
+		SRC="/vagrant"
+		VENV="$HOME/virtualenvs/pyne-sqla"
+		MAIN_CMD="cd $SRC && source $VENV/bin/activate"
+		SPARE_CMD="cd $SRC && source $VENV/bin/activate"
+		IPYTHON_NOTEBOOK="cd $SRC && source $VENV/bin/activate && ipython notebook --no-browser --ip=0.0.0.0"
+
+		# Create a window for userapp
+		tmux new-window -t pyne:1 -n 'main'
+		tmux send-keys -t pyne:1 "$MAIN_CMD" C-m
+		tmux new-window -t pyne:2 -n 'extra'
+		tmux send-keys -t pyne:2 "$SPARE_CMD" C-m
+		tmux new-window -t pyne:3 -n 'ipython[notebook]'
+		tmux send-keys -t pyne:3 "$IPYTHON_NOTEBOOK" C-m
+
+		tmux select-window -t pyne:1
+	fi
+
+	tmux -2 attach-session -t pyne
+fi
+exit 0
