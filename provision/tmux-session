@@ -13,24 +13,24 @@ if [ -z "$TMUX" ]; then
 	# create a new tmux background session
 	PID=$(echo -n $(pidof tmux))
 	if [ -z "$PID" ]; then
-		tmux new-session -d -s pyne
+		tmux new-session -d -s ipython
 		SRC="/vagrant"
-		VENV="$HOME/virtualenvs/pyne-sqla"
+		VENV="$HOME/virtualenvs/ipython"
 		MAIN_CMD="cd $SRC && source $VENV/bin/activate"
 		SPARE_CMD="cd $SRC && source $VENV/bin/activate"
 		IPYTHON_NOTEBOOK="cd $SRC && source $VENV/bin/activate && ipython notebook --no-browser --ip=0.0.0.0"
 
 		# Create a window for userapp
-		tmux new-window -t pyne:1 -n 'main'
-		tmux send-keys -t pyne:1 "$MAIN_CMD" C-m
-		tmux new-window -t pyne:2 -n 'extra'
-		tmux send-keys -t pyne:2 "$SPARE_CMD" C-m
-		tmux new-window -t pyne:3 -n 'ipython[notebook]'
-		tmux send-keys -t pyne:3 "$IPYTHON_NOTEBOOK" C-m
+		tmux new-window -t ipython:1 -n 'main'
+		tmux send-keys -t ipython:1 "$MAIN_CMD" C-m
+		tmux new-window -t ipython:2 -n 'extra'
+		tmux send-keys -t ipython:2 "$SPARE_CMD" C-m
+		tmux new-window -t ipython:3 -n 'ipython[notebook]'
+		tmux send-keys -t ipython:3 "$IPYTHON_NOTEBOOK" C-m
 
-		tmux select-window -t pyne:1
+		tmux select-window -t ipython:1
 	fi
 
-	tmux -2 attach-session -t pyne
+	tmux -2 attach-session -t ipython
 fi
 exit 0

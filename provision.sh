@@ -72,7 +72,7 @@ if [ ! -d "$VENV_HOME" ]; then
 	chown vagrant:vagrant "$VENV_HOME"
 fi
 
-VENV="pyne-sqla"
+VENV="ipython"
 VENV_DIR="$VENV_HOME/$VENV"
 if [ ! -d "$VENV_DIR" ]; then
 	echo "Creating virtualenv '$VENV' in '$VENV_DIR"
