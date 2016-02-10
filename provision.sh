@@ -13,6 +13,7 @@ CONF_FILES='/vagrant/provision'
 # Get the box upto date and install the packages we need.
 apt-get update -y
 apt-get install -y python-virtualenv git python-dev python3-dev tmux virtualenvwrapper git-extras sqlite3
+apt-get install -y python3-pip
 apt-get purge -y chef chef-zero puppet
 apt-get autoremove -y
 
